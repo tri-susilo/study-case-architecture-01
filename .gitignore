@@ -1,0 +1,10 @@
+*.exe
+
+# Go modules and dependencies
+/go/pkg/mod/
+go.sum
+go.work
+go.work.sum
+
+# Environment files (security)
+.env
