@@ -5,14 +5,14 @@ FROM golang:1.21 AS builder
 WORKDIR /app
 
 # Copy go.mod and go.sum files, then download dependencies
-COPY go.mod go.sum ./
+COPY go.mod go.sum ./ 
 RUN go mod download
 
 # Copy the rest of the application
 COPY . .
 
 # Build the Go application
-RUN go build -o go_app
+RUN CGO_ENABLED=0 GOOS=linux go build -o /go-crud
 
 # Use a minimal base image
 FROM alpine:latest
@@ -20,13 +20,19 @@ FROM alpine:latest
 # Set the working directory in the container
 WORKDIR /app
 
+# Install necessary dependencies
+RUN apk --no-cache add ca-certificates
+
 # Copy the built binary from the builder stage
-COPY --from=builder /app/go_app .
+COPY --from=builder /go-crud /app/go-crud
+
+# Copy the views directory into the container
+COPY --from=builder /app/views /app/views
 
 # Ensure the binary has execution permission
-RUN chmod +x go_app
+RUN chmod +x /app/go-crud
 
-EXPOSE 8070
+EXPOSE 8080
 
 # Command to run the application
-CMD ["./go_app"]
+CMD ["/app/go-crud"]

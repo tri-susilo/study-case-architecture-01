@@ -7,6 +7,6 @@ services:
       - DB_PASSWORD=userCrud
       - DB_HOST=10.10.10.7
       - DB_PORT=3306
-      - DB_NAME=test.crud
+      - DB_NAME=test.go-crud
     ports:
-      - "8080:8080"
+      - "8070:8070"
