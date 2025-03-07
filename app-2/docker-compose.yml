@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  app:
+    image: go-crud:0.0.1  # Use the existing image
+    restart: always
+    environment:
+      DB_USER: crud
+      DB_PASSWORD: usercrud
+      DB_HOST: 192.168.50.28
+      DB_PORT: 3306
+      DB_NAME: test.go-crud
+    ports:
+      - "8070:8070"
